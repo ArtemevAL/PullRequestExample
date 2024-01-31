@@ -22,7 +22,8 @@ namespace PullRequestExamples
         public static Figure[] GetFigures(
             bool? isWaitable,
             bool? isCheckable,
-            int? minHeight
+            int? minHeight,
+            bool? isSortable
             )
         {
             using (var ms = new MemoryStream())
@@ -40,6 +41,10 @@ namespace PullRequestExamples
                 {
                     filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
                 }
+                if (isSortable.HasValue)
+                {
+                    filteredFigures = filteredFigures.Where(figure => figure.IsSortable == isSortable.Value);
+                }
 
                 return filteredFigures.ToArray();
             }
@@ -51,6 +56,7 @@ namespace PullRequestExamples
             public bool IsWaitable { get; set; }
             public bool IsCheckable { get; set; }
             public int? Height { get; set; }
+            public bool IsSortable { get; set; }
 
             public Figure()
             { }
