@@ -25,24 +25,27 @@ namespace PullRequestExamples
             int? minHeight
             )
         {
-            using (var ms = new MemoryStream())
+            IEnumerable<Figure> filteredFigures = AllFigures;
+            if (isWaitable.HasValue)
             {
-                IEnumerable<Figure> filteredFigures = AllFigures;
-                if (isWaitable.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.IsWaitable == isWaitable.Value);
-                }
-                if (isCheckable.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.IsCheckable == isCheckable.Value);
-                }
-                if (minHeight.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
-                }
-
-                return filteredFigures.ToArray();
+                filteredFigures = filteredFigures.Where(figure => figure.IsWaitable == isWaitable.Value);
             }
+            if (isCheckable.HasValue)
+            {
+                filteredFigures = filteredFigures.Where(figure => figure.IsCheckable == isCheckable.Value);
+            }
+            if (minHeight.HasValue && minHeight.Value > 0)
+            {
+                var height = minHeight.Value;
+                filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
+
+                if (filteredFigures.Any())
+                {
+                    filteredFigures = filteredFigures.Select(figure => new Figure(figure.IsWaitable, figure.IsCheckable, figure.Height));
+                }
+            }
+
+            return filteredFigures.ToArray();
         }
 
 
