@@ -26,28 +26,24 @@ namespace PullRequestExamples
             bool? isSortable
             )
         {
-            using (var ms = new MemoryStream())
+            IEnumerable<Figure> filteredFigures = AllFigures;
+            if (isWaitable.HasValue)
             {
-                IEnumerable<Figure> filteredFigures = AllFigures;
-                if (isWaitable.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.IsWaitable == isWaitable.Value);
-                }
-                if (isCheckable.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.IsCheckable == isCheckable.Value);
-                }
-                if (minHeight.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
-                }
-                if (isSortable.HasValue)
-                {
-                    filteredFigures = filteredFigures.Where(figure => figure.IsSortable == isSortable.Value);
-                }
-
-                return filteredFigures.ToArray();
+                filteredFigures = filteredFigures.Where(figure => figure.IsWaitable == isWaitable.Value);
             }
+            if (isCheckable.HasValue)
+            {
+                filteredFigures = filteredFigures.Where(figure => figure.IsCheckable == isCheckable.Value);
+            }
+            if (minHeight.HasValue)
+            {
+                filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
+            if (isSortable.HasValue)
+            {
+                filteredFigures = filteredFigures.Where(figure => figure.IsSortable == isSortable.Value);
+            }
+
+            return filteredFigures.ToArray();
         }
 
 
