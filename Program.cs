@@ -38,6 +38,7 @@ namespace PullRequestExamples
             if (minHeight.HasValue)
             {
                 filteredFigures = filteredFigures.Where(figure => figure.Height >= minHeight.Value);
+            }
             if (isSortable.HasValue)
             {
                 filteredFigures = filteredFigures.Where(figure => figure.IsSortable == isSortable.Value);
